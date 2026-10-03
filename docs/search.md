@@ -53,10 +53,38 @@ index isn't built locally). After a deploy, check on
 1. Searching a board member's name (e.g. "Hugo Meijer") returns that
    person as a top result, and clicking it lands on their card on
    `/board`.
-2. Searching a research theme (e.g. "deterrence") surfaces the relevant
-   people.
+2. Searching a narrow research theme (e.g. "peacekeeping") surfaces the
+   relevant people. Broad themes do not, see the results below.
 3. The same holds on the FR and DE sites (the per-locale stubs).
 
 If results don't appear, confirm the deploy ran `pagefind --site _site`
 after the build and that `/search/bios/` is present in the published
 output.
+
+### Last checked: 3 October 2026
+
+Checked on the live site in EN, FR and DE. Local builds show no results
+by design, since the index only exists on the deployed site (see *Why
+local search shows "unavailable"* above).
+
+- **Names.** Ten board members searched in English, all ten returned as
+  the top result with photo and role, and the click lands on the right
+  card on `/board`. Surname-only searches work. FR and DE behave the
+  same. Pagefind does no fuzzy matching, so a misspelling ("Hugo Meier")
+  returns nothing.
+- **Each person ranks twice.** The bio stub and the profile page
+  (`/board/<slug>.html`) both match, so one person takes two of the
+  eight results the modal shows (`search.js` keeps the top eight).
+- **Themes.** Narrow themes put the right person in the top three
+  ("peacekeeping", "disinformation", "neutrality"). Broad ones show no
+  people at all, because papers fill the eight slots: "deterrence" has
+  72 results with the first person at 27th, "nuclear" 73 with the first
+  at 31st.
+- **FR and DE themes** find almost nothing ("dissuasion" and
+  "Abschreckung" return two pages each). Board themes and papers are in
+  English only.
+
+**For the maintainer.** Two gaps are worth a decision: whether the bio
+stubs are still needed now that profile pages exist, and whether broad
+theme searches should surface people (for example by ranking bio stubs
+higher, or showing more than eight results). Neither is fixed here.
