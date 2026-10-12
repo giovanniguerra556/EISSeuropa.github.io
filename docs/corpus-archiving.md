@@ -177,6 +177,44 @@ dictionary and licence note on `/licensing` is a separate piece of work,
 tracked in
 [#641](https://github.com/EISSeuropa/EISSeuropa.github.io/issues/641).
 
+### The analytical layer
+
+`scripts/export-corpus-analytics.mjs` writes the figures derived from the
+corpus to `data/anthology-analytics.json`, a companion to the export above
+([#1227](https://github.com/EISSeuropa/EISSeuropa.github.io/issues/1227)).
+It is generated the same way and never committed:
+
+```sh
+node scripts/export-corpus-analytics.mjs
+```
+
+| Key | Holds |
+|---|---|
+| `meta` | The same DOI, licence and attribution as the corpus export, the generation date, headline counts and the caveats below. |
+| `themesByEdition` | One row per edition: papers, tagged and untagged papers, and each theme's paper count with its share of the tagged papers. |
+| `coauthorship.nodes` | One row per author: name key, display name, papers, papers written with a co-author. |
+| `coauthorship.edges` | One row per pair of authors who shared a paper: the two keys, the number of shared papers and the years. |
+
+Theme keys and author keys are the ones the corpus export uses, so the
+two files join on them. Edition keys are the edition URL, as in
+`editions[].key`, which keeps the joint events apart from the annual
+conference held the same year.
+
+The totals agree with the corpus export: the editions sum to its 511
+papers, the tagged papers to its 482, and each theme's count across
+editions to its `themes[].papers`. A paper can carry more than one theme,
+so the theme counts within an edition can add up to more than its tagged
+papers. An author listed twice on one paper is counted once, which is why
+the network counts 101 multi-author papers where the raw author lists
+give 102.
+
+**Not included: affiliation shares by country.** They need affiliations
+resolved to ROR identifiers
+([#1248](https://github.com/EISSeuropa/EISSeuropa.github.io/issues/1248)),
+and that mapping is still unreviewed. Two wrong matches scored above
+0.97, so a country figure built on it now would be wrong with confidence.
+They join this file once #1248 is reviewed.
+
 ### The cadence
 
 **Open question, not yet settled.** The current deposit is versioned

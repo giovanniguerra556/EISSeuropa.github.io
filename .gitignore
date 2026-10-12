@@ -23,6 +23,8 @@ __pycache__/
 # it is derived from already is.
 data/anthology-corpus.json
 data/anthology-corpus-note.pdf
+# Its analytical companion from scripts/export-corpus-analytics.mjs (#1227).
+data/anthology-analytics.json
 
 # The SKOS theme vocabulary, staged for its own Zenodo record (#1249). Copied
 # straight out of _site/vocab/ by the two-line build in docs/corpus-archiving.md,
